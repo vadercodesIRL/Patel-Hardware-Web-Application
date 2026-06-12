@@ -1,0 +1,189 @@
+/* ============================================================
+   Patel Hardware
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #2c2c2c;
+    color: #222;
+    min-height: 100vh;
+}
+
+/* ── Top navigation bar ────────────────────────────────── */
+.navbar {
+    display: flex;
+    align-items: center;
+    background: #1a1a6e;
+    padding: 8px 16px;
+    gap: 24px;
+    color: #fff;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.navbar a:hover { text-decoration: underline; }
+
+.navbar .search-wrap {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.navbar .search-wrap input {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 3px;
+    font-size: 13px;
+    width: 180px;
+}
+
+.navbar .search-wrap button {
+    background: #1a1a6e;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+/* ── Login / Register card ─────────────────────────────── */
+.auth-page {
+    background-image: url('../img/gravel.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    background: rgba(255,255,255,0.88);
+    padding: 32px 28px;
+    width: 340px;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.auth-card h1 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    /* Green + red gradient to match screenshot title */
+    background: linear-gradient(90deg, #2a7c2a 60%, #c0392b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+.auth-card label {
+    display: block;
+    font-weight: 700;
+    color: #c0392b;
+    margin-bottom: 4px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.auth-card input[type=text],
+.auth-card input[type=password],
+.auth-card input[type=email] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.auth-card button.btn-primary {
+    width: 100%;
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.auth-card button.btn-primary:hover { background: #a93226; }
+
+.auth-card .link-row {
+    text-align: center;
+    font-size: 13px;
+}
+
+.auth-card .link-row a { color: #1a1a6e; }
+
+/* ── Main content area ─────────────────────────────────── */
+.content {
+    padding: 24px 32px;
+    background: #fff;
+    min-height: calc(100vh - 42px);
+}
+
+.content h2 {
+    color: #1a1a6e;
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+/* ── Data table ────────────────────────────────────────── */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13px;
+}
+
+table th {
+    background: #1a1a6e;
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+}
+
+table td {
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+}
+
+table tr:nth-child(even) td { background: #f4f4f4; }
+
+/* ── Buttons ───────────────────────────────────────────── */
+.btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.btn-buy   { background: #1a1a6e; color: #fff; }
+.btn-buy:hover { background: #12126e; }
+
+.btn-back  { background: transparent; color: #1a1a6e;
+             text-decoration: underline; border: none;
+             cursor: pointer; font-size: 13px; }
+
+/* ── Messages ──────────────────────────────────────────── */
+.msg { padding: 10px 14px; border-radius: 3px; margin-bottom: 14px; font-size: 13px; }
+.msg.success { background: #d4edda; color: #155724; }
+.msg.error   { background: #f8d7da; color: #721c24; }
+
+/* ── Total row ─────────────────────────────────────────── */
+.total-row td { font-weight: 700; background: #eef !important; }

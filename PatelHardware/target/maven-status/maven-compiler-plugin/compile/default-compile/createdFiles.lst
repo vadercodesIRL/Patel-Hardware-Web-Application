@@ -1,0 +1,12 @@
+com\patelhardware\model\Items.class
+com\patelhardware\model\User.class
+com\patelhardware\servlet\SearchItemsServlet.class
+com\patelhardware\servlet\DBConnection.class
+com\patelhardware\servlet\ViewCartItemsServlet.class
+com\patelhardware\model\LoginResponse.class
+com\patelhardware\servlet\ViewAllServlet.class
+com\patelhardware\model\RegistrationResponse.class
+com\patelhardware\servlet\BuyItemsServlet.class
+com\patelhardware\servlet\LoginServlet.class
+com\patelhardware\servlet\RegistrationServlet.class
+com\patelhardware\servlet\MainServlet.class

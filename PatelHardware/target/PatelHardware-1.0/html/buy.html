@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patel Hardware – Buy an Item</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/PatelHardware/html/main.html">Home</a>
+    <a href="/PatelHardware/html/viewall.html">View All Items</a>
+    <a href="/PatelHardware/html/buy.html">Buy an Item</a>
+    <a href="/PatelHardware/html/cart.html">View Cart</a>
+    <div class="search-wrap">
+        <input type="text" id="navSearch" placeholder="Search Items">
+        <button onclick="doSearch()">&#128269;</button>
+    </div>
+</nav>
+<div class="content">
+    <h2>Buy an Item</h2>
+    <div id="msg" class="msg" style="display:none;"></div>
+    <div id="searchSection">
+        <label for="itemIdInput" style="font-weight:600;">Enter Item Number:</label><br><br>
+        <input type="number" id="itemIdInput" placeholder="e.g. 1111" style="padding:8px;width:200px;margin-right:8px;">
+        <button class="btn btn-buy" onclick="loadItem()">Load Item</button>
+        <br><br>
+    </div>
+    <div id="itemCard" style="display:none; border:1px solid #ddd; padding:20px; max-width:400px; border-radius:4px;">
+        <table style="width:100%; border:none;">
+            <tr><td style="border:none; font-weight:700; width:120px;">Item #:</td><td style="border:none;" id="detailId"></td></tr>
+            <tr><td style="border:none; font-weight:700;">Name:</td><td style="border:none;" id="detailName"></td></tr>
+            <tr><td style="border:none; font-weight:700;">Color:</td><td style="border:none;" id="detailColor"></td></tr>
+            <tr><td style="border:none; font-weight:700;">Description:</td><td style="border:none;" id="detailDesc"></td></tr>
+            <tr><td style="border:none; font-weight:700;">Price:</td><td style="border:none;" id="detailPrice"></td></tr>
+            <tr><td style="border:none; font-weight:700;">Available:</td><td style="border:none;" id="detailAvail"></td></tr>
+        </table>
+        <br>
+        <button class="btn btn-buy" onclick="confirmBuy()">Add to Cart</button>
+        &nbsp;
+        <a href="/PatelHardware/html/viewall.html">Back to Items</a>
+    </div>
+    <br>
+    <a href="/PatelHardware/html/main.html">Go back to Main Menu</a>
+</div>
+<script>
+    var currentItemId = null;
+    function doSearch() {
+        var q = document.getElementById('navSearch').value.trim();
+        if (q) window.location.href = '/PatelHardware/html/search.html?query=' + encodeURIComponent(q);
+    }
+    document.getElementById('navSearch').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') doSearch();
+    });
+    function showMsg(text, type) {
+        var el = document.getElementById('msg');
+        el.textContent = text;
+        el.className = 'msg ' + type;
+        el.style.display = 'block';
+    }
+    function loadItem() {
+        var id = document.getElementById('itemIdInput').value.trim();
+        if (!id) { showMsg('Please enter an item number.', 'error'); return; }
+        fetchItem(id);
+    }
+    function fetchItem(id) {
+        fetch('/PatelHardware/buy?itemId=' + encodeURIComponent(id))
+            .then(function(res) {
+                if (res.status === 401) { window.location.href = '/PatelHardware/html/login.html'; }
+                return res.json();
+            })
+            .then(function(data) {
+                if (data.error) { showMsg(data.error, 'error'); return; }
+                currentItemId = data.itemId;
+                document.getElementById('detailId').textContent    = data.itemId;
+                document.getElementById('detailName').textContent   = data.name;
+                document.getElementById('detailColor').textContent  = data.color;
+                document.getElementById('detailDesc').textContent   = data.description;
+                document.getElementById('detailPrice').textContent  = 'R' + parseFloat(data.price).toFixed(0);
+                document.getElementById('detailAvail').textContent  = data.available ? 'Yes' : 'No';
+                document.getElementById('itemCard').style.display   = 'block';
+            })
+            .catch(function() { showMsg('Failed to load item.', 'error'); });
+    }
+    function confirmBuy() {
+        if (!currentItemId) return;
+        var params = new URLSearchParams();
+        params.append('itemId', currentItemId);
+        fetch('/PatelHardware/buy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success) {
+                showMsg('Item added to your cart!', 'success');
+            } else {
+                showMsg(data.error || 'Could not add item.', 'error');
+            }
+        })
+        .catch(function() { showMsg('Server error.', 'error'); });
+    }
+    var params = new URLSearchParams(window.location.search);
+    var preId  = params.get('itemId');
+    if (preId) {
+        document.getElementById('itemIdInput').value = preId;
+        fetchItem(preId);
+    }
+</script>
+</body>
+</html>

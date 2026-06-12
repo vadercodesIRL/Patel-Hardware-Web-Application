@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patel Hardware – Home</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/PatelHardware/html/main.html">Home</a>
+    <a href="/PatelHardware/html/viewall.html">View All Items</a>
+    <a href="/PatelHardware/html/buy.html">Buy an Item</a>
+    <a href="/PatelHardware/html/cart.html">View Cart</a>
+    <div class="search-wrap">
+        <input type="text" id="navSearch" placeholder="Search Items">
+        <button onclick="doSearch()">&#128269;</button>
+    </div>
+</nav>
+<div class="content">
+    <h2>Patel Hardware</h2>
+    <p id="welcomeMsg">Welcome to the Patel Hardware web application. Please select one of the options below:</p>
+    <br>
+    <table style="width:auto; border:none;">
+        <tr>
+            <td style="border:none; padding:4px 12px 4px 0;"><a href="/PatelHardware/html/main.html">Main Menu</a></td>
+            <td style="border:none; padding:4px 12px;"><a href="/PatelHardware/html/viewall.html">View all Items</a></td>
+        </tr>
+        <tr>
+            <td style="border:none; padding:4px 12px 4px 0;"><a href="/PatelHardware/html/buy.html">Buy an Item</a></td>
+            <td style="border:none; padding:4px 12px;"><a href="/PatelHardware/html/cart.html">View Cart</a></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:none; padding:4px 0;">
+                <button class="btn-back" onclick="logout()">Logout</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    fetch('/PatelHardware/main')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (!data.loggedIn) {
+                window.location.href = '/PatelHardware/html/login.html';
+            } else {
+                document.getElementById('welcomeMsg').textContent =
+                    'Welcome, ' + data.username + '! Please select one of the options below:';
+            }
+        })
+        .catch(function() {
+            window.location.href = '/PatelHardware/html/login.html';
+        });
+    function logout() {
+        fetch('/PatelHardware/main?action=logout').then(function() {
+            window.location.href = '/PatelHardware/html/login.html';
+        });
+    }
+    function doSearch() {
+        var q = document.getElementById('navSearch').value.trim();
+        if (q) window.location.href = '/PatelHardware/html/search.html?query=' + encodeURIComponent(q);
+    }
+    document.getElementById('navSearch').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') doSearch();
+    });
+</script>
+</body>
+</html>
